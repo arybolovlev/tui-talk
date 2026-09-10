@@ -55,11 +55,14 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m model) View() string {
-	if m.page == 0 {
-		return renderFrame(titleArt(), m.width, m.height, "KubeCon Europe 27", true, 1, "by Eleni and Aleksandr", true)
+	switch p := m.page; p {
+	case 0:
+		return renderFrame(titleArt(), m.width, m.height, "KubeCon Europe 27", true, p+1, "by Eleni and Aleksandr", true)
+	case 1:
+		return renderFrame(nil, m.width, m.height, "What is wrong with Ingress?", false, p+1, "", true)
+	default:
+		return renderFrame(nil, m.width, m.height, "Thank you! Questions?", false, p+1, "", true)
 	}
-
-	return renderFrame(nil, m.width, m.height, "What is wrong with Ingress?", false, 2, "", true)
 }
 
 func titleArt() []string {
@@ -159,7 +162,7 @@ func stripANSI(s string) string {
 }
 
 func pageCount() int {
-	return 2
+	return 3
 }
 
 func main() {
