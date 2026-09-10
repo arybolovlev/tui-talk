@@ -11,6 +11,7 @@ const (
 	reset  = "\033[0m"
 	bold   = "\033[1m"
 	cyan   = "\033[36m"
+	red    = "\033[31m"
 	yellow = "\033[93m"
 	muted  = "\033[90m"
 	white  = "\033[97m"
@@ -57,19 +58,27 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m model) View() string {
 	switch p := m.page; p {
 	case 0:
-		return renderFrame(titleArt(), m.width, m.height, "KubeCon Europe 27", true, p+1, "by Eleni and Aleksandr", true)
+		return renderFrame(titlePage(), m.width, m.height, "KubeCon Europe 27", true, p+1, "by Eleni and Aleksandr", true)
 	case 1:
-		return renderFrame(nil, m.width, m.height, "What is wrong with Ingress?", false, p+1, "", true)
+		return renderFrame(ingressPage(), m.width, m.height, "What is wrong with Ingress?", true, p+1, "", true)
 	default:
 		return renderFrame(nil, m.width, m.height, "Thank you! Questions?", false, p+1, "", true)
 	}
 }
 
-func titleArt() []string {
+func titlePage() []string {
 	return []string{
 		cyan + "An overheard conversation about" + reset,
 		"",
-		bold + yellow + "GatewayAPI" + reset,
+		bold + yellow + "G A T E W A Y A P I" + reset,
+	}
+}
+
+func ingressPage() []string {
+	return []string{
+		bold + yellow + "Nothing?" + reset,
+		bold + "OR" + reset,
+		bold + red + "Everything?" + reset,
 	}
 }
 
@@ -158,7 +167,7 @@ func center(s string, width int) string {
 }
 
 func stripANSI(s string) string {
-	return strings.NewReplacer(cyan, "", yellow, "", muted, "", white, "", bold, "", reset, "").Replace(s)
+	return strings.NewReplacer(cyan, "", yellow, "", muted, "", white, "", bold, "", reset, "", red, "").Replace(s)
 }
 
 func pageCount() int {
